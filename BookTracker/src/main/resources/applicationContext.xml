@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this template
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd"> 
+    
+    <!--
+    -Need to add <bean> tags that will identify each of our different classes and
+    how they tie together.
+    -These tags should be nested inside the <beans> element we just created
+-->
+
+    <bean id="io" class="com.sg.booktracker.ui.UserIOConsoleImpl" />
+
+    <bean id="dao" class="com.sg.booktracker.dao.BookDaoMemoryImpl" />
+    
+     <!--
+    -The bean tags here are not self-closed because we need to add in our dependencies
+    -Because each of these classes has a constructor that takes in the dependency, we add in constructor-arg tags.
+    -Inside that tag, the ref field references the id of the class that needs to be injected.
+    -We also set up all our dependencies: our view takes in the UserIO class, our service takes in the dao, and our controller takes in our service and view.
+--> 
+    
+    <bean id="view" class="com.sg.booktracker.ui.BookView">
+        <constructor-arg ref="io" />
+    </bean>
+
+    <bean id="service" class="com.sg.booktracker.service.BookService">
+        <constructor-arg ref="dao" />
+    </bean>
+
+    <bean id="controller" class="com.sg.booktracker.controller.BookController">
+        <constructor-arg ref="service" />
+        <constructor-arg ref="view" />
+    </bean>
+    
+</beans>
+
+
+
+
+    
+
+    
+    
